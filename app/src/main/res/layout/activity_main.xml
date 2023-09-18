@@ -1,5 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_height="match_parent"
+    android:layout_width="match_parent">
+
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,22 +17,61 @@
     android:padding="16dp"
     tools:context=".MainActivity">
 
-    <EditText
-        android:id="@+id/cost_of_service"
+
+    <ImageView
+        android:id="@+id/icon_cost_of_service"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/ic_baseline_attach_money_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/input_layout"
+        app:layout_constraintBottom_toBottomOf="@id/input_layout" />
+
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/input_layout"
         android:layout_width="160dp"
         android:layout_height="wrap_content"
-        android:hint="Cost of Service"
-        android:inputType="numberDecimal"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginStart="25dp"
+        app:layout_constraintStart_toEndOf="@id/icon_cost_of_service">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/cost_of_service"
+            android:layout_width="160dp"
+            android:layout_height="wrap_content"
+            android:hint="@string/cost_of_service"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <ImageView
+        android:id="@+id/icon_service_question"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/ic_baseline_room_service_24"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/service_question"
+        app:layout_constraintBottom_toBottomOf="@id/service_question" />
+
 
     <TextView
         android:id="@+id/service_question"
+        style="@style/Widget.TipTime.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="How was the service?"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/cost_of_service" />
+
+        android:layout_marginTop="40dp"
+        android:layout_marginStart="35dp"
+        app:layout_constraintStart_toStartOf="@id/icon_service_question"
+        app:layout_constraintTop_toBottomOf="@id/icon_cost_of_service"/>/>
 
     <RadioGroup
         android:id="@+id/tip_options"
@@ -30,14 +79,15 @@
         android:layout_height="wrap_content"
         android:checkedButton="@id/option_twenty_percent"
         android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toStartOf="@id/service_question"
         app:layout_constraintTop_toBottomOf="@id/service_question">
 
         <RadioButton
             android:id="@+id/option_twenty_percent"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Amazing (20%)" />
+            android:text="Amazing (20%)"
+            app:layout_constraintStart_toStartOf="@id/service_question"/>
 
         <RadioButton
             android:id="@+id/option_eighteen_percent"
@@ -53,7 +103,18 @@
 
     </RadioGroup>
 
-    <Switch
+
+    <ImageView
+        android:id="@+id/icon_round_up"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:importantForAccessibility="no"
+        app:srcCompat="@drawable/ic_round_up"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/round_up_switch"
+        app:layout_constraintBottom_toBottomOf="@id/round_up_switch" />
+
+    <com.google.android.material.switchmaterial.SwitchMaterial
         android:id="@+id/round_up_switch"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
@@ -62,7 +123,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/tip_options"
         app:layout_constraintTop_toBottomOf="@id/tip_options"
-        tools:ignore="UseSwitchCompatOrMaterialXml" />
+        tools:ignore="UseSwitchCompatOrMaterialXml"
+        android:layout_marginStart="15dp"
+        app:layout_constraintStart_toEndOf="@id/icon_round_up"/>
 
 
     <Button
@@ -71,12 +134,15 @@
         android:layout_height="wrap_content"
         android:text="Calculate"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/round_up_switch" />
+
+        app:layout_constraintTop_toBottomOf="@id/round_up_switch"
+        android:layout_marginTop="8dp"
+        app:layout_constraintStart_toStartOf="@id/round_up_switch"/>
 
     <!-- wrap content, isto é usa o espaço necessario -->
     <TextView
         android:id="@+id/tip_result"
+        style="@style/Widget.TipTime.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         tools:text="Tip Amount: $10"
@@ -84,3 +150,4 @@
         app:layout_constraintTop_toBottomOf="@id/calculate_button" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

@@ -1,6 +1,7 @@
 package com.example.tiptime
 
 import android.os.Bundle
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import com.example.tiptime.databinding.ActivityMainBinding
 import java.text.NumberFormat
@@ -20,24 +21,41 @@ class MainActivity : AppCompatActivity() {
 
     fun calculateTip() { //método auxiliar
         //custo do serviço
-        val stringInTextField = binding.costOfService.text.toString() //acesse o texto do custo do serviço
-        val cost = stringInTextField.toDouble()//Depois, converta o texto em número decimal
-        //percentual da gorjeta
-        val selectedId = binding.tipOptions.checkedRadioButtonId //vai buscar que radiobotum foi selecionado
-        val tipPercentage = when (selectedId) { //qual das percentagens foi selecionado
-            R.id.option_twenty_percent -> 0.20
-            R.id.option_eighteen_percent -> 0.18
-            else -> 0.15
-        }
-        //calcular a gorjeta
-        var tip = tipPercentage * cost
-        val roundUp = binding.roundUpSwitch.isChecked //erifique o atributo isChecked para ver se a chave está "ativada".
-        if (roundUp) {
-            tip = kotlin.math.ceil(tip)
-        }
-        //formatar a gorjeta
-        val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
-        binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
-        //testtt
+        //val stringInTextField = binding.costOfService.text.toString() //acesse o texto do custo do serviço
+        //val cost = stringInTextField.toDouble()//Depois, converta o texto em número decimal
+        // Get the decimal value from the cost of service text field
+        val stringInTextField = binding.costOfService.text.toString() //// Obtém o texto inserido em um campo de entrada e armazena-o como uma String
+        val cost = stringInTextField.toDoubleOrNull()/// Converte a String em um valor Double, retornando null se a conversão falhar
+
+        if (cost != null){ // verifica se o valor inserido não é nulo
+            //percentual da gorjeta
+            val selectedId = binding.tipOptions.checkedRadioButtonId //vai buscar que radiobotum foi selecionado
+            val tipPercentage = when (selectedId) { //qual das percentagens foi selecionado
+                R.id.option_twenty_percent -> 0.20
+                R.id.option_eighteen_percent -> 0.18
+                else -> 0.15
+            }
+            //calcular a gorjeta
+            var tip = tipPercentage * cost
+            val roundUp = binding.roundUpSwitch.isChecked //erifique o atributo isChecked para ver se a chave está "ativada".
+            if (roundUp) {
+                tip = kotlin.math.ceil(tip)
+            }
+            //formatar a gorjeta
+            val formattedTip = NumberFormat.getCurrencyInstance().format(tip)
+            binding.tipResult.text = getString(R.string.tip_amount, formattedTip)
+            //testtt
+
+        } else // binding.tipResult.text = "valor invalido "
+
+        { //ou com um pop up
+            val alertDialog = AlertDialog.Builder(this) // Cria uma instância de AlertDialog
+            alertDialog.setTitle("Não pode colocar valores nulos") //  título do pop-up como "Erro"
+            alertDialog.setMessage("Valor inválido. Por favor, insira um valor.")
+            alertDialog.setPositiveButton("OK", null)
+            alertDialog.show()}
+
     }
+
+
 }
